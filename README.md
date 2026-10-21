@@ -64,13 +64,3 @@ pytest
 - On first use, check the HECATE column names and that the size column `R1` is in arcmin (`SearchConfig.hecate_r1_unit`).
 - **Data rights:** DP2 data products are available only to Rubin data-rights holders. Do not commit query outputs to a public repository; `outputs/` is git-ignored.
 
-## Citation
-
-If you use this code, please cite it via the metadata in `CITATION.cff` (Zenodo DOI to be added) and the references below.
-
-- Kovlakas, K., et al. 2021, MNRAS, 506, 1896 (HECATE)
-- NSF-DOE Vera C. Rubin Observatory 2026, Legacy Survey of Space and Time Data Preview 2, doi:10.71929/rubin/3382528
-
-## License
-
-BSD 3-Clause. See `LICENSE`.
