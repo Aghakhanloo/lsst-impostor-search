@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "lsst-impostor-search: a Rubin/LSST search for supernova impostors and LBV eruptions"
+version: 0.1.0
+date-released: 2026-10-21
+license: BSD-3-Clause
+authors:
+  - family-names: Aghakhanloo
+    given-names: Mojgan
+    affiliation: University of Virginia
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+repository-code: "https://github.com/<your-username>/lsst-impostor-search"
+keywords:
+  - Rubin Observatory
+  - LSST
+  - luminous blue variables
+  - supernova impostors
+  - time-domain astronomy

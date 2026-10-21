@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "impostorsearch"
+version = "0.1.0"
+description = "Search Rubin/LSST difference-imaging data for supernova impostor and luminous blue variable candidates"
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+authors = [{name = "Mojgan Aghakhanloo", email = "mojgan.aghakhanloo@virginia.edu"}]
+requires-python = ">=3.10"
+dependencies = ["numpy", "astropy>=6", "matplotlib", "astroquery"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
