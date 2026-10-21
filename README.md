@@ -17,9 +17,8 @@ The search is **transient-first** over the whole footprint:
 Selection criteria (all configurable in `SearchConfig`):
 
 1. **Variability:** amplitude of at least 1 mag (5th to 95th percentile of significant forced fluxes in any band).
-2. **Colour:** blue at peak (g - r below a threshold, 0.5 by default), reflecting the blue-to-yellow colour evolution of LBV eruptions.
-3. **Environment:** within 2 host radii of a HECATE galaxy, but not at its nucleus, to avoid AGN.
-4. **Luminosity:** peak absolute magnitude between -17 and -7, using the HECATE distance.
+2. **Environment:** within 2 host radii of a HECATE galaxy, but not at its nucleus, to avoid AGN.
+3. **Luminosity:** peak absolute magnitude between -17 and -7, using the HECATE distance.
 
 ## Quick start (Rubin Science Platform)
 
