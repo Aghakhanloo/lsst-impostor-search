@@ -1,6 +1,6 @@
 """Label-efficiency experiment: does a pretrained LSST classifier help when impostors are rare?
 
-For each number of labelled impostors N (e.g. 25 ... 4000), with plenty of
+For each number of labeled impostors N (e.g. 25 ... 4000), with plenty of
 supernovae and AGN, train the same network three ways and evaluate on one fixed,
 balanced test set:
 
@@ -9,7 +9,7 @@ balanced test set:
   frozen      ORACLE-1 weights kept fixed; only the new head is trained
 
 Each configuration is repeated with several seeds (different impostor subsets
-and initialisations). The simulator plays the role of the augmentation step:
+and initializations). The simulator plays the role of the augmentation step:
 a handful of real impostors would be expanded into many simulated ones.
 
 Example (laptop, small):
@@ -41,7 +41,7 @@ MODE_LABELS = {"scratch": "from scratch", "pretrained": "pretrained ORACLE, fine
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--counts", type=int, nargs="+", default=[25, 50, 100, 250, 1000, 4000],
-                   help="numbers of labelled impostors to train with")
+                   help="numbers of labeled impostors to train with")
     p.add_argument("--n-other", type=int, default=4000, help="supernovae and AGN per class in training")
     p.add_argument("--n-test", type=int, default=1500, help="test objects per class")
     p.add_argument("--seeds", type=int, default=3)
@@ -188,7 +188,7 @@ def plot(rows, out):
             ax.errorbar(ns, mean, yerr=std, color=MODE_COLORS[mode], marker="o", ms=5, lw=2,
                         capsize=0, label=MODE_LABELS[mode])
         ax.set_xscale("log")
-        ax.set_xlabel("labelled impostors in training set")
+        ax.set_xlabel("labeled impostors in training set")
         ax.set_ylabel(lab)
         ax.grid(axis="y", color="#e4e3dc", lw=0.8)
     axes[0].legend(frameon=False, fontsize=8, loc="lower right")

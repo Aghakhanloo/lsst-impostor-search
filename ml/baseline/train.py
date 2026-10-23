@@ -109,7 +109,7 @@ def make_figures(out, prob, y, meta_test, cm, rel_rows_single, rel_rows_ens):
     import matplotlib.pyplot as plt
     plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False})
 
-    # confusion matrix (row-normalised = recall per true class)
+    # confusion matrix (row-normalized = recall per true class)
     fig, ax = plt.subplots(figsize=(4.2, 3.6))
     cmn = cm / cm.sum(1, keepdims=True)
     ax.imshow(cmn, cmap="Blues", vmin=0, vmax=1)
@@ -303,7 +303,7 @@ def write_model_card(out, m):
 
 **Compute.** {m['device']}{' (' + m['gpu'] + ')' if m['gpu'] else ''}; training time {m['train_seconds_total']:.0f} s; throughput {m['train_throughput_samples_per_s']:.0f} light curves/s.
 
-**Limitations.** Performance on simulations is an upper limit on performance on real data. The simulations omit many real effects (other variable classes, extinction, image artefacts, realistic LSST cadence and depth variations), and the impostor model is built on a handful of well-studied objects.
+**Limitations.** Performance on simulations is an upper limit on performance on real data. The simulations omit many real effects (other variable classes, extinction, image artifacts, realistic LSST cadence and depth variations), and the impostor model is built on a handful of well-studied objects.
 """
     (out / "MODEL_CARD.md").write_text(text)
 

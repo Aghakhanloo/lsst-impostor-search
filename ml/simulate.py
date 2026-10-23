@@ -155,7 +155,7 @@ def luptitude(flux, sigma):
 
 def detected(flux_true, b, n_min=2, snr=5.0):
     """At least n_min epochs differ from the object's median flux by >= snr sigma,
-    as a source must to appear in the difference-imaging (DiaObject) catalogue."""
+    as a source must to appear in the difference-imaging (DiaObject) catalog."""
     sigma = np.array([mag_to_njy(M5[bb]) / 5.0 for bb in BANDS])[b]
     return np.sum(np.abs(flux_true - np.median(flux_true)) / sigma >= snr) >= n_min
 

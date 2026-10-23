@@ -2,7 +2,7 @@
 
 Two experiments on **simulated** LSST-like light curves. Simulated performance is an upper limit on real-data performance; the point is a working, reproducible setup that carries over to real LSST data.
 
-1. **Transfer learning (main experiment).** Starts from ORACLE-1, a public classifier pretrained on simulated LSST alerts, and fine-tunes it to recognise SN impostors. It measures how many labelled impostors are needed, compared with training from scratch.
+1. **Transfer learning (main experiment).** Starts from ORACLE-1, a public classifier pretrained on simulated LSST alerts, and fine-tunes it to recognize SN impostors. It measures how many labeled impostors are needed, compared with training from scratch.
 2. **Baseline: a transformer trained from scratch** (`baseline/`). Includes calibration with a deep ensemble.
 
 ## The simulated data (`simulate.py`)
@@ -19,7 +19,7 @@ Each object sits in a host galaxy at 5 to 40 Mpc. The classifier also receives t
 
 ORACLE-1 ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) is a recurrent network trained on about 0.5 million simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. It has no impostor or LBV class. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.
 
-For each number of labelled impostors N (25, 50, 100, 250, 1000, 4000), with 4000 supernovae and 4000 AGN, the same network is trained three ways:
+For each number of labeled impostors N (25, 50, 100, 250, 1000, 4000), with 4000 supernovae and 4000 AGN, the same network is trained three ways:
 
 | Mode | Starting weights | What is trained |
 |---|---|---|
@@ -49,7 +49,7 @@ Outputs in `--out`:
 
 | File | Contents |
 |---|---|
-| `label_efficiency.png` | impostor F1 and AUROC versus number of labelled impostors, per mode |
+| `label_efficiency.png` | impostor F1 and AUROC versus number of labeled impostors, per mode |
 | `results.csv` | every run: mode, N, seed, recall, precision, F1, AUROC, training time |
 | `summary.json` | mean and spread per mode and N, zero-shot ORACLE calls, hardware |
 
@@ -64,7 +64,7 @@ python ml/baseline/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --devic
 
 ## Limitations
 
-- **The simulations leave out many real effects:** other variable classes, extinction, image artefacts, the true LSST cadence and depth variations, and the full diversity of eruptions.
+- **The simulations leave out many real effects:** other variable classes, extinction, image artifacts, the true LSST cadence and depth variations, and the full diversity of eruptions.
 - **The impostor model is built on a handful of well-studied objects.**
 - **The domain gap is deliberately not removed.** ORACLE was trained on six-band light curves of mostly distant transients; these are three-band and nearby.
 

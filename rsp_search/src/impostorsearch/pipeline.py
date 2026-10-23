@@ -23,7 +23,7 @@ def run_search(service, hecate_raw, cfg=None, ra_range=(0.0, 360.0), out_dir="ou
     matched, no_host = match_to_hosts(objects, hosts, cfg)
     print(f"Stage 2: {len(matched)} within {cfg.host_max_norm_sep} R1 of a HECATE galaxy; "
           f"{int(np.sum(matched['pass_offset'])) if len(matched) else 0} offset from the nucleus; "
-          f"{len(no_host)} with no catalogued host (saved for inspection)")
+          f"{len(no_host)} with no cataloged host (saved for inspection)")
 
     phot = fetch_forced_photometry(service, matched["diaObjectId"], cfg)
     metrics = apply_cuts(compute_metrics(phot, matched, cfg), cfg)

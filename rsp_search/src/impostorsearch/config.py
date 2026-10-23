@@ -26,7 +26,7 @@ class SearchConfig:
     host_max_norm_sep: float = 2.0      # (r1 mode) max separation in units of the host radius R1
     offset_min_kpc: float = 0.5         # (kpc mode) min projected offset from the nucleus
     offset_max_kpc: float = 50.0        # (kpc mode) max projected offset for association
-    nucleus_min_sep_arcsec: float = 1.5 # reject objects closer than this to the host centre
+    nucleus_min_sep_arcsec: float = 1.5 # reject objects closer than this to the host center
     nucleus_min_norm_sep: float = 0.05  # ... or closer than this fraction of R1 (AGN guard)
     hecate_r1_unit: u.Unit = u.arcmin   # unit of the HECATE size column (verify on first use)
 
@@ -37,7 +37,7 @@ class SearchConfig:
     amp_percentiles: tuple = (5.0, 95.0)  # robust min/max of the flux distribution
     max_color_gr: float = 0.5           # criterion 2: blue at peak, g - r below this
     color_max_dt_days: float = 1.0      # g and r epochs paired within this window
-    require_color: bool = False         # if False, objects without a colour are kept and flagged
+    require_color: bool = False         # if False, objects without a color are kept and flagged
     abs_mag_bright: float = -17.0       # criterion 4: -17 < M < -7
     abs_mag_faint: float = -7.0
 

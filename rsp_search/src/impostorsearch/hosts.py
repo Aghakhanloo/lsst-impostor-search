@@ -1,4 +1,4 @@
-"""Host-galaxy association with the HECATE catalogue (Kovlakas et al. 2021,
+"""Host-galaxy association with the HECATE catalog (Kovlakas et al. 2021,
 https://doi.org/10.1093/mnras/stab1799)."""
 import numpy as np
 import astropy.units as u
@@ -63,7 +63,7 @@ def match_to_hosts(objects, hosts, cfg, max_search_deg=3.0):
     Normalising by galaxy size or by distance (rather than a fixed angle) makes the cut
     mean the same thing for galaxies at 5 Mpc and at 100 Mpc.
 
-    Returns (matched, no_host). no_host holds objects with no catalogued host nearby,
+    Returns (matched, no_host). no_host holds objects with no cataloged host nearby,
     kept for manual inspection: impostors in faint, uncatalogued dwarfs end up there.
     """
     if len(objects) == 0 or len(hosts) == 0:

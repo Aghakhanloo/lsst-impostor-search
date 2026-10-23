@@ -6,7 +6,7 @@ def apply_cuts(metrics, cfg):
     """Add pass_* columns and the final is_candidate flag.
 
     1. amplitude >= cfg.min_amplitude_mag
-    2. blue at peak: g - r < cfg.max_color_gr (missing colour handled by cfg.require_color)
+    2. blue at peak: g - r < cfg.max_color_gr (missing color handled by cfg.require_color)
     3. near a host galaxy but offset from its nucleus (pass_offset, set in match_to_hosts)
     4. cfg.abs_mag_bright < peak absolute magnitude < cfg.abs_mag_faint
     """
