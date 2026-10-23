@@ -1,0 +1,9 @@
+outputs/
+*.ecsv
+*.fits
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+ml/results*/*.pt
+ml/pretrained/*.pth

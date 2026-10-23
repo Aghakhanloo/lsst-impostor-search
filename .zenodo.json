@@ -1,0 +1,10 @@
+{
+  "title": "lsst-impostor-search: a Rubin/LSST search for supernova impostors and LBV eruptions",
+  "upload_type": "software",
+  "description": "Python package and Rubin Science Platform notebook that search Rubin/LSST difference-imaging data (Data Preview 2 onward) for supernova impostor and luminous blue variable candidates in nearby galaxies, using DiaObject pre-selection, HECATE host association, and forced-photometry light-curve cuts.",
+  "creators": [
+    {"name": "Aghakhanloo, Mojgan", "affiliation": "University of Virginia"}
+  ],
+  "license": "BSD-3-Clause",
+  "keywords": ["Rubin Observatory", "LSST", "luminous blue variables", "supernova impostors", "time-domain astronomy"]
+}
