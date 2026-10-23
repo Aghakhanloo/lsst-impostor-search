@@ -8,7 +8,7 @@ authors:
   - family-names: Aghakhanloo
     given-names: Mojgan
     affiliation: University of Virginia
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
+abstract: "Tools to find eruptive massive stars (supernova impostors and luminous blue variable eruptions) in Rubin Observatory/LSST data: a candidate search of Data Preview 2 on the Rubin Science Platform, and a machine-learning prototype that fine-tunes the pretrained ORACLE light-curve classifier to recognize simulated eruptions."
 repository-code: "https://github.com/Aghakhanloo/lsst-impostor-search"
 keywords:
   - Rubin Observatory
@@ -16,3 +16,5 @@ keywords:
   - luminous blue variables
   - supernova impostors
   - time-domain astronomy
+  - machine learning
+  - transfer learning
