@@ -52,6 +52,10 @@ If you use this code, please cite it via `CITATION.cff` (Zenodo DOI to be added)
 - Shah, V. G., et al. 2025 (ORACLE): [https://doi.org/10.3847/1538-4357/ae1130](https://doi.org/10.3847/1538-4357/ae1130), [arXiv:2501.01496](https://arxiv.org/abs/2501.01496)
 - NSF-DOE Vera C. Rubin Observatory 2026, Legacy Survey of Space and Time Data Preview 2, [doi:10.71929/rubin/3382528](https://doi.org/10.71929/rubin/3382528)
 
+## Acknowledgments
+
+This work uses data from the NSF-DOE Vera C. Rubin Observatory Legacy Survey of Space and Time, Data Preview 2 ([doi:10.71929/rubin/3382528](https://doi.org/10.71929/rubin/3382528)), accessed through the Rubin Science Platform. The candidate search was developed at the LSST Catalyst Symposium. Host galaxies come from the HECATE catalog ([Kovlakas et al. 2021](https://doi.org/10.1093/mnras/stab1799)), retrieved through [VizieR](https://vizier.cds.unistra.fr) (CDS, Strasbourg). The ML prototype builds on the public ORACLE model ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) and runs on the University of Virginia's [Research Computing](https://www.rc.virginia.edu) clusters. This code uses [Astropy](https://www.astropy.org), NumPy, Matplotlib, and PyTorch.
+
 ## License
 
 BSD 3-Clause. See [`LICENSE`](LICENSE).
