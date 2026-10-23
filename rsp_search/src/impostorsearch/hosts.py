@@ -1,4 +1,5 @@
-"""Host-galaxy association with the HECATE catalogue (Kovlakas et al. 2021)."""
+"""Host-galaxy association with the HECATE catalogue (Kovlakas et al. 2021,
+https://doi.org/10.1093/mnras/stab1799)."""
 import numpy as np
 import astropy.units as u
 from astropy.coordinates import SkyCoord, search_around_sky

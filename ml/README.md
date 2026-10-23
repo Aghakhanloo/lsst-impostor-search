@@ -17,7 +17,7 @@ Each object sits in a host galaxy at 5 to 40 Mpc. The classifier also receives t
 
 ## 1. Transfer learning from ORACLE (`finetune_experiment.py`)
 
-[ORACLE-1](https://arxiv.org/abs/2501.01496) (Shah et al. 2025) is a recurrent network trained on about 0.5 million simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. It has no impostor or LBV class. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.
+ORACLE-1 ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) is a recurrent network trained on about 0.5 million simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. It has no impostor or LBV class. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.
 
 For each number of labelled impostors N (25, 50, 100, 250, 1000, 4000), with 4000 supernovae and 4000 AGN, the same network is trained three ways:
 
@@ -72,7 +72,7 @@ Read the results as a test of the method, not as survey predictions.
 
 ## Credits
 
-ORACLE-1: Shah, V. G., Gagliano, A., Malanchev, K., Narayan, G., & LSST DESC 2025, arXiv:2501.01496. The weights are downloaded from github.com/dev-ved30/Oracle under its license and are not redistributed here.
+ORACLE-1: Shah, V. G., Gagliano, A., Malanchev, K., Narayan, G., & LSST DESC 2025, [doi:10.3847/1538-4357/ae1130](https://doi.org/10.3847/1538-4357/ae1130), [arXiv:2501.01496](https://arxiv.org/abs/2501.01496). The weights are downloaded from [github.com/dev-ved30/Oracle](https://github.com/dev-ved30/Oracle) under its license and are not redistributed here.
 
 ## Tests
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Download the public ORACLE-1 "lite" weights (Shah et al. 2025; github.com/dev-ved30/Oracle,
+# Download the public ORACLE-1 "lite" weights (Shah et al. 2025, https://doi.org/10.3847/1538-4357/ae1130; github.com/dev-ved30/Oracle,
 # modified MIT license with a non-military-use restriction) and check their checksum.
 set -e
 DEST="$(dirname "$0")/pretrained/oracle1_elasticc_lite.pth"

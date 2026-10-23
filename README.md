@@ -40,9 +40,9 @@ DP2 data products are available only to Rubin data-rights holders. Query outputs
 
 If you use this code, please cite it via `CITATION.cff` (Zenodo DOI to be added) and:
 
-- Kovlakas, K., et al. 2021, MNRAS, 506, 1896 (HECATE)
-- Shah, V., et al. 2025 (ORACLE)
-- NSF-DOE Vera C. Rubin Observatory 2026, Legacy Survey of Space and Time Data Preview 2, doi:10.71929/rubin/3382528
+- Kovlakas, K., et al. 2021, MNRAS, 506, 1896 (HECATE): [https://doi.org/10.1093/mnras/stab1799](https://doi.org/10.1093/mnras/stab1799)
+- Shah, V. G., et al. 2025 (ORACLE): [https://doi.org/10.3847/1538-4357/ae1130](https://doi.org/10.3847/1538-4357/ae1130), [arXiv:2501.01496](https://arxiv.org/abs/2501.01496)
+- NSF-DOE Vera C. Rubin Observatory 2026, Legacy Survey of Space and Time Data Preview 2, [doi:10.71929/rubin/3382528](https://doi.org/10.71929/rubin/3382528)
 
 ## License
 

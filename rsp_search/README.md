@@ -11,7 +11,7 @@ The search is **transient-first** over the whole footprint:
 | Stage | What it does | Where |
 |---|---|---|
 | 1 | Select `DiaObject`s whose total flux (template + difference flux) varies by at least 1 mag in r or g, queried in RA strips | ADQL on the RSP TAP service |
-| 2 | Associate each with a HECATE galaxy (Kovlakas et al. 2021), by separation / galaxy radius or by projected offset in kpc; keep objects off the nucleus, and save those with no catalogued host for inspection | `astropy` cross-match |
+| 2 | Associate each with a HECATE galaxy ([Kovlakas et al. 2021](https://doi.org/10.1093/mnras/stab1799)), by separation / galaxy radius or by projected offset in kpc; keep objects off the nucleus, and save those with no catalogued host for inspection | `astropy` cross-match |
 | 3 | Retrieve forced photometry (`ForcedSourceOnDiaObject` joined to `Visit`) and apply the light-curve cuts | Python |
 
 Selection criteria (all configurable in `SearchConfig`):

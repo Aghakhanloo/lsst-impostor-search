@@ -148,7 +148,7 @@ def observe(rng, flux_true, b, host_flux):
 
 
 def luptitude(flux, sigma):
-    """asinh magnitude: well behaved at low and negative flux (Lupton et al. 1999)."""
+    """asinh magnitude: well behaved at low and negative flux (Lupton et al. 1999, https://doi.org/10.1086/301004)."""
     soft = 1.042 * sigma
     return -2.5 / np.log(10) * (np.arcsinh(flux / (2 * soft)) + np.log(soft)) + ZP
 
