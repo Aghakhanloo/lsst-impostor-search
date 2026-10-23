@@ -1,5 +1,9 @@
 # lsst-impostor-search
 
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Rubin DP2](https://img.shields.io/badge/data-Rubin%20DP2-purple.svg)](https://doi.org/10.71929/rubin/3382528)
+
 Tools to find **eruptive massive stars** (supernova impostors and luminous blue variable eruptions) in Rubin Observatory / LSST data, and to measure how often they erupt.
 
 These stars brighten by several magnitudes in non-terminal eruptions and survive. Only a few dozen are known. Rubin's wide, deep, multi-band coverage makes a systematic search possible for the first time.
