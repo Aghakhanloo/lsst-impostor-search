@@ -40,6 +40,10 @@ sbatch ml/rivanna_job.slurm
 
 DP2 data products are available only to Rubin data-rights holders. Query outputs are git-ignored and should not be committed. The ORACLE weights are downloaded by a script and are not redistributed here.
 
+## Contact
+
+Mojgan Aghakhanloo, University of Virginia: [mojgan.aghakhanloo@virginia.edu](mailto:mojgan.aghakhanloo@virginia.edu). Questions and bug reports are welcome as [GitHub issues](https://github.com/Aghakhanloo/lsst-impostor-search/issues).
+
 ## Citation
 
 If you use this code, please cite it via `CITATION.cff` (Zenodo DOI to be added) and:
