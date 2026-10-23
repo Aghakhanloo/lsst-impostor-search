@@ -1,65 +1,49 @@
 # lsst-impostor-search
 
-Search Rubin Observatory / LSST difference-imaging data for **supernova (SN) impostors and luminous blue variable (LBV) eruptions** in nearby galaxies.
+Tools to find **eruptive massive stars** (supernova impostors and luminous blue variable eruptions) in Rubin Observatory / LSST data, and to measure how often they erupt.
 
-LBVs and SN impostors are massive stars that undergo non-terminal eruptions, brightening by magnitudes while the star survives. Only a few dozen are known. Rubin's wide, deep, multi-band coverage makes a systematic search possible for the first time. This package implements the candidate search used for Rubin Data Preview 2 (DP2) and is designed to be rerun on each new data release.
+These stars brighten by several magnitudes in non-terminal eruptions and survive. Only a few dozen are known. Rubin's wide, deep, multi-band coverage makes a systematic search possible for the first time.
 
-## Method
+## What is in this repository
 
-The search is **transient-first** over the whole footprint:
-
-| Stage | What it does | Where |
+| Folder | What it does | Where it runs |
 |---|---|---|
-| 1 | Select `DiaObject`s whose total flux (template + difference flux) varies by at least 1 mag in r or g, queried in RA strips | ADQL on the RSP TAP service |
-| 2 | Associate each with a HECATE galaxy (Kovlakas et al. 2021), by separation / galaxy radius or by projected offset in kpc; keep objects off the nucleus, and save those with no catalogued host for inspection | `astropy` cross-match |
-| 3 | Retrieve forced photometry (`ForcedSourceOnDiaObject` joined to `Visit`) and apply the light-curve cuts | Python |
+| [`rsp_search/`](rsp_search/) | Candidate search of Rubin Data Preview 2 (DP2): selects variable sources, assigns host galaxies and distances from HECATE, and retrieves forced-photometry light curves. Python package `impostorsearch` plus notebooks. | Rubin Science Platform |
+| [`ml/`](ml/) | Machine-learning prototype: fine-tunes the pretrained ORACLE light-curve classifier to recognize simulated eruptions and compares it with training from scratch. | Laptop or GPU cluster (UVA Rivanna, TACC) |
 
-Selection criteria (all configurable in `SearchConfig`):
+Each folder has its own README with instructions.
 
-1. **Variability:** amplitude of at least 1 mag (5th to 95th percentile of significant forced fluxes in any band).
-2. **Environment:** within 2 host radii of a HECATE galaxy, but not at its nucleus, to avoid AGN.
-3. **Luminosity:** peak absolute magnitude between -17 and -7, using the HECATE distance.
+## Quick start
 
-## Quick start (Rubin Science Platform)
-
-From a terminal on the RSP Notebook aspect:
+**Candidate search (on the Rubin Science Platform):**
 
 ```bash
-git clone https://github.com/<your-username>/lsst-impostor-search.git
-pip install --user -e lsst-impostor-search
+git clone https://github.com/Aghakhanloo/lsst-impostor-search.git
+pip install --user -e lsst-impostor-search/rsp_search
 ```
 
-Then open the notebooks:
+Then open the notebooks in `rsp_search/notebooks/`.
 
-- `notebooks/00_single_object_lightcurve.ipynb`: the DP2 light curve of one target (cone search, then forced photometry).
-- `notebooks/01_candidate_search.ipynb`: the standalone whole-footprint search. Variability is cut inside the database, then hosts and absolute magnitudes come from HECATE.
-- `notebooks/02_full_pipeline.ipynb`: the same search through the `impostorsearch` package, run in RA strips, with forced-photometry light-curve cuts and saved outputs.
-
-```python
-from impostorsearch import SearchConfig, load_hecate
-from impostorsearch.queries import tap_client
-from impostorsearch.pipeline import run_search
-
-cfg = SearchConfig()
-cands, metrics, phot = run_search(tap_client("dp2"), load_hecate(), cfg,
-                                  ra_range=(50, 60), out_dir="outputs/test")
-```
-
-Outputs are written to `outputs/`: `candidates.ecsv`, `no_host.ecsv`, `all_matched_metrics.ecsv` (every host-matched object, with a pass/fail column per criterion), and `forced_photometry.fits`. Each file stores the full `SearchConfig` in its metadata.
-
-## Tests
-
-The selection logic is tested offline on synthetic light curves, including an end-to-end run with a mocked TAP service:
+**ML prototype (on a GPU cluster):**
 
 ```bash
-pip install -e ".[test]"
-pytest
+git clone https://github.com/Aghakhanloo/lsst-impostor-search.git
+cd lsst-impostor-search
+sbatch ml/rivanna_job.slurm
 ```
 
-## Caveats
+## Data rights
 
-- Amplitudes use direct-image forced photometry, which includes host light, so they are lower limits.
-- Absolute magnitudes are not corrected for extinction.
-- On first use, check the HECATE column names and that the size column `R1` is in arcmin (`SearchConfig.hecate_r1_unit`).
-- **Data rights:** DP2 data products are available only to Rubin data-rights holders. Do not commit query outputs to a public repository; `outputs/` is git-ignored.
+DP2 data products are available only to Rubin data-rights holders. Query outputs are git-ignored and should not be committed. The ORACLE weights are downloaded by a script and are not redistributed here.
 
+## Citation
+
+If you use this code, please cite it via `CITATION.cff` (Zenodo DOI to be added) and:
+
+- Kovlakas, K., et al. 2021, MNRAS, 506, 1896 (HECATE)
+- Shah, V., et al. 2025 (ORACLE)
+- NSF-DOE Vera C. Rubin Observatory 2026, Legacy Survey of Space and Time Data Preview 2, doi:10.71929/rubin/3382528
+
+## License
+
+BSD 3-Clause. See [`LICENSE`](LICENSE).

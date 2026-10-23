@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "ml"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from simulate import make_dataset, CLASSES, mag_to_njy, luptitude   # noqa: E402
 
 
@@ -40,7 +40,7 @@ def test_oracle_architecture_and_conversion():
     assert d["ts"].shape[2] == 5 and np.all(d["lengths"] > 20)
     L = d["lengths"][0]
     assert set(np.unique(d["ts"][0, :L, 4])) <= {0.0, 1.0}            # detection flag
-    weights = Path(__file__).resolve().parents[1] / "ml" / "pretrained" / "oracle1_elasticc_lite.pth"
+    weights = Path(__file__).resolve().parents[1] / "pretrained" / "oracle1_elasticc_lite.pth"
     enc = load_oracle(weights) if weights.exists() else OracleLiteGRU()
     model = ImpostorClassifier(enc)
     out = model(torch.as_tensor(d["ts"]), torch.as_tensor(d["lengths"]), torch.as_tensor(d["ctx"]))

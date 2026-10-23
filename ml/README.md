@@ -73,3 +73,9 @@ Read the results as a test of the method, not as survey predictions.
 ## Credits
 
 ORACLE-1: Shah, V. G., Gagliano, A., Malanchev, K., Narayan, G., & LSST DESC 2025, arXiv:2501.01496. The weights are downloaded from github.com/dev-ved30/Oracle under its license and are not redistributed here.
+
+## Tests
+
+```bash
+pytest ml/tests
+```
