@@ -3,8 +3,8 @@
 Example (laptop, ~10-20 min on CPU):
     python ml/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/results_small
 
-Example (one GPU on TACC, see ml/tacc_job.slurm):
-    python ml/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --out ml/results
+Example (one GPU):
+    python ml/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/results
 
 Writes to --out: metrics.json, MODEL_CARD.md, figures (PNG), and model weights.
 """

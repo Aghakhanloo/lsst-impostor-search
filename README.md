@@ -9,7 +9,7 @@ These stars brighten by several magnitudes in non-terminal eruptions and survive
 | Folder | What it does | Where it runs |
 |---|---|---|
 | [`rsp_search/`](rsp_search/) | Candidate search of Rubin Data Preview 2 (DP2): selects variable sources, assigns host galaxies and distances from HECATE, and retrieves forced-photometry light curves. Python package `impostorsearch` plus notebooks. | Rubin Science Platform |
-| [`ml/`](ml/) | Machine-learning prototype: fine-tunes the pretrained ORACLE light-curve classifier to recognize simulated eruptions and compares it with training from scratch. | Laptop or GPU cluster (UVA Rivanna, TACC) |
+| [`ml/`](ml/) | Machine-learning prototype: fine-tunes the pretrained ORACLE light-curve classifier to recognize simulated eruptions and compares it with training from scratch. | Laptop or GPU cluster (UVA Rivanna) |
 
 Each folder has its own README with instructions.
 

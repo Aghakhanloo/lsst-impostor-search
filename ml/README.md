@@ -59,7 +59,7 @@ A transformer reads each observation as a token, with a band embedding and a tim
 
 ```bash
 python ml/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/results_small   # laptop
-sbatch ml/tacc_job.slurm                                                                 # TACC GPU
+python ml/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/results         # one GPU
 ```
 
 ## Limitations
