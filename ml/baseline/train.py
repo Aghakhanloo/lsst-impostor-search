@@ -1,10 +1,10 @@
 """Train and evaluate the light-curve transformer on simulated LSST-like data.
 
 Example (laptop, ~10-20 min on CPU):
-    python ml/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/results_small
+    python ml/baseline/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/baseline/results_small
 
 Example (one GPU):
-    python ml/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/results
+    python ml/baseline/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/baseline/results
 
 Writes to --out: metrics.json, MODEL_CARD.md, figures (PNG), and model weights.
 """
@@ -19,7 +19,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent))          # model.py
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))      # simulate.py
 from simulate import make_dataset, CLASSES          # noqa: E402
 from model import LightCurveTransformer, count_parameters   # noqa: E402
 
@@ -39,7 +40,7 @@ def parse_args():
     p.add_argument("--sim-seed", type=int, default=0)
     p.add_argument("--device", default="auto")
     p.add_argument("--workers", type=int, default=0)
-    p.add_argument("--out", default="ml/results")
+    p.add_argument("--out", default="ml/baseline/results")
     return p.parse_args()
 
 

@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "baseline"))
 from simulate import make_dataset, CLASSES, mag_to_njy, luptitude   # noqa: E402
 
 

@@ -3,7 +3,7 @@
 Two experiments on **simulated** LSST-like light curves. Simulated performance is an upper limit on real-data performance; the point is a working, reproducible setup that carries over to real LSST data.
 
 1. **Transfer learning (main experiment).** Starts from ORACLE-1, a public classifier pretrained on simulated LSST alerts, and fine-tunes it to recognise SN impostors. It measures how many labelled impostors are needed, compared with training from scratch.
-2. **A transformer trained from scratch.** Includes calibration with a deep ensemble.
+2. **Baseline: a transformer trained from scratch** (`baseline/`). Includes calibration with a deep ensemble.
 
 ## The simulated data (`simulate.py`)
 
@@ -53,13 +53,13 @@ Outputs in `--out`:
 | `results.csv` | every run: mode, N, seed, recall, precision, F1, AUROC, training time |
 | `summary.json` | mean and spread per mode and N, zero-shot ORACLE calls, hardware |
 
-## 2. Transformer from scratch, with calibration (`train.py`)
+## 2. Baseline: transformer from scratch, with calibration (`baseline/train.py`)
 
-A transformer reads each observation as a token, with a band embedding and a time encoding (`model.py`). It is evaluated with a confusion matrix, impostor recall versus outburst amplitude and host distance, and calibration of a single model versus a deep ensemble.
+A transformer reads each observation as a token, with a band embedding and a time encoding (`baseline/model.py`). It is evaluated with a confusion matrix, impostor recall versus outburst amplitude and host distance, and calibration of a single model versus a deep ensemble.
 
 ```bash
-python ml/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/results_small   # laptop
-python ml/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/results         # one GPU
+python ml/baseline/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/baseline/results_small   # laptop
+python ml/baseline/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/baseline/results         # one GPU
 ```
 
 ## Limitations
