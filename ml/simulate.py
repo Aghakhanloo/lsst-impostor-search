@@ -27,8 +27,11 @@ import numpy as np
 # ---- Fixed settings ----
 BANDS = ("g", "r", "i")                     # the three filters simulated (index 0, 1, 2)
 CLASSES = ("impostor", "sn", "agn")         # class labels 0, 1, 2
-M5 = {"g": 24.8, "r": 24.4, "i": 23.9}     # assumed single-visit 5-sigma depths (AB)
-ZP = 31.4                                   # AB zero point for nJy
+# Single-visit 5-sigma point-source depths (AB): median expected over the survey
+# (baseline_v2.0 cadence, 30 s visits), PSTN-054 Table 4, https://pstn-054.lsst.io/PSTN-054.pdf
+M5 = {"g": 24.50, "r": 24.03, "i": 23.41}
+# AB zero point for fluxes in nJy: 2.5 log10(3631 Jy / 1 nJy) = 31.40 (exact, from the AB definition)
+ZP = 31.4
 
 
 def mag_to_njy(m):
