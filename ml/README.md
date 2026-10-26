@@ -75,6 +75,7 @@ Read the results as a test of the method, not as survey predictions.
 ## Next steps
 
 - **Real LSST cadence.** Replace the simplified cadence in `simulate.py` (two 180-day seasons with random gaps) with Rubin's simulated observing schedule (the OpSim baseline used in [PSTN-054](https://pstn-054.lsst.io/PSTN-054.pdf)): take the actual visit times, filters, and depths at random positions in nearby galaxies. This captures season lengths that depend on position on the sky, gaps from weather and the Moon, and the rolling cadence. Once LSST data are available, use the real visit history from the Rubin data releases instead.
+- **Expert-simulated contaminants from ELAsTiCC.** Replace the simple supernova and AGN models with the public [ELAsTiCC](https://portal.nersc.gov/cfs/lsst/DESC_TD_PUBLIC/ELASTICC/) light curves from LSST DESC (supernovae, AGN, and other look-alikes such as ILOTs, CaRTs, TDEs, and SLSNe), which already use Rubin's simulated cadence. ELAsTiCC has no impostor class, so impostors still come from `simulate.py`, injected with the visit times and depths of real ELAsTiCC objects so the classifier cannot tell the two simulators apart. Keep the IIn-like model if SNe IIn are not available as a separate class. Because ORACLE was pretrained on ELAsTiCC, the pretrained model starts with an advantage on these contaminants; report this alongside the comparison.
 
 ## Credits
 
