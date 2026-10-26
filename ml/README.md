@@ -15,6 +15,8 @@ g, r, i light curves on an LSST-like cadence (two 180-day seasons, about one vis
 
 Each object sits in a host galaxy at 5 to 40 Mpc. The classifier also receives the median absolute magnitude computed from the host distance, as the real search gets from HECATE. Only objects that would be detected in difference imaging are kept.
 
+To see what the simulated light curves look like, run `python ml/plot_examples.py` (saves `ml/example_lightcurves.png`; use `--seed` for other examples).
+
 ## 1. Transfer learning from ORACLE (`finetune_experiment.py`)
 
 ORACLE-1 ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) is a recurrent network trained on about 0.5 million simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. It has no impostor or LBV class. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.

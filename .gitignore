@@ -8,3 +8,4 @@ __pycache__/
 ml/results*/*.pt
 ml/baseline/results*/
 ml/pretrained/*.pth
+ml/example_lightcurves.png
