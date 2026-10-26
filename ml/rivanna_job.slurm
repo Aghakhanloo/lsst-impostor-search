@@ -34,6 +34,6 @@ apptainer exec --nv $SIF python -c "import matplotlib" 2>/dev/null || \
 bash ml/get_oracle_weights.sh
 
 nvidia-smi
-apptainer exec --nv $SIF python ml/finetune_experiment.py \
+apptainer exec --nv $SIF python -u ml/finetune_experiment.py \
     --counts 25 50 100 250 1000 4000 --n-other 4000 --n-test 1500 \
     --seeds 3 --steps 3000 --batch-size 256 --device cuda --out ml/results_transfer
