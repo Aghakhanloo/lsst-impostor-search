@@ -20,6 +20,15 @@ is the flux of a 5-sigma source at the single-visit depth m5, divided by 5.
 
 How to read this file: each "def" is a function (a reusable recipe), and
 "rng" is the random number generator used to draw every random value.
+
+Where the numbers come from (each is also marked in the code):
+  [measured]   taken from a published source, linked next to it
+  [exact]      follows from a definition
+  [assumption] a choice made for this test, not a measurement; change it freely
+Main sources: Rubin depths, PSTN-054 (https://pstn-054.lsst.io/PSTN-054.pdf);
+SN 2000ch outbursts, Aghakhanloo et al. 2023a (https://arxiv.org/abs/2212.00113);
+AT 2016blu outbursts, Aghakhanloo et al. 2023b (https://arxiv.org/abs/2212.09708);
+AGN damped random walk, MacLeod et al. 2010 (https://doi.org/10.1088/0004-637X/721/2/1014).
 """
 # NumPy: Python's library for arrays of numbers ("np" is its short name).
 import numpy as np
@@ -27,10 +36,10 @@ import numpy as np
 # ---- Fixed settings ----
 BANDS = ("g", "r", "i")                     # the three filters simulated (index 0, 1, 2)
 CLASSES = ("impostor", "sn", "agn")         # class labels 0, 1, 2
-# Single-visit 5-sigma point-source depths (AB): median expected over the survey
+# [measured] Single-visit 5-sigma point-source depths (AB): median expected over the survey
 # (baseline_v2.0 cadence, 30 s visits), PSTN-054 Table 4, https://pstn-054.lsst.io/PSTN-054.pdf
 M5 = {"g": 24.50, "r": 24.03, "i": 23.41}
-# AB zero point for fluxes in nJy: 2.5 log10(3631 Jy / 1 nJy) = 31.40 (exact, from the AB definition)
+# [exact] AB zero point for fluxes in nJy: 2.5 log10(3631 Jy / 1 nJy) = 31.40 (exact, from the AB definition)
 ZP = 31.4
 
 
@@ -40,7 +49,12 @@ def mag_to_njy(m):
 
 
 def cadence(rng, n_seasons=2, season_days=180.0, year=365.25, mean_gap_days=8.0):
-    """Irregular per-band visit times over observing seasons with annual gaps."""
+    """Irregular per-band visit times over observing seasons with annual gaps.
+
+    [assumption] 2 seasons of 180 d and one visit per band every ~8 d on average.
+    The real LSST cadence varies across the sky and will replace this once
+    available (PSTN-054 describes the simulated baseline cadence).
+    """
     t, b = [], []                                    # lists to collect times and bands
     for k, band in enumerate(BANDS):                 # loop over g, r, i (k = 0, 1, 2)
         for s in range(n_seasons):                   # loop over observing seasons
@@ -60,7 +74,7 @@ def _slow_wander(rng, t, amp):
     """Smooth, slow magnitude wandering (S Dor-like), sum of long-period sinusoids."""
     out = np.zeros_like(t)
     for _ in range(3):                               # add three slow sine waves
-        period = rng.uniform(300, 3000)              # period of 300 to 3000 days
+        period = rng.uniform(300, 3000)              # [assumption] period of 300 to 3000 days
         out += rng.normal(0, amp / np.sqrt(3)) * np.sin(2 * np.pi * t / period + rng.uniform(0, 2 * np.pi))
     return out
 
@@ -68,24 +82,26 @@ def _slow_wander(rng, t, amp):
 def impostor(rng, t, b, mu):
     """Returns per-epoch magnitudes and the parameters used."""
     # --- the quiescent star ---
-    m_q = rng.uniform(-10.0, -7.0) + mu              # quiescent apparent magnitude
-    color_q = rng.uniform(-0.1, 0.4)                  # quiescent g - r
+    m_q = rng.uniform(-10.0, -7.0) + mu              # [assumption] quiescent abs. mag -10 to -7, made apparent with mu
+    color_q = rng.uniform(-0.1, 0.4)                  # [assumption] quiescent g - r
     band_offset = np.array([color_q, 0.0, -0.5 * color_q])[b]   # brightness offset per band
-    base_flux = mag_to_njy(m_q + band_offset + _slow_wander(rng, t, 0.3))   # star + slow wandering
+    base_flux = mag_to_njy(m_q + band_offset + _slow_wander(rng, t, 0.3))   # star + slow wandering ([assumption] 0.3 mag)
 
     # --- the eruptions ---
-    periodic = rng.uniform() < 0.7                    # 70% periodic outbursts, 30% one giant eruption
-    burst_color = rng.uniform(-0.25, 0.15)            # outbursts are bluer
+    periodic = rng.uniform() < 0.7                    # [assumption] 70% periodic outbursts, 30% one giant eruption
+    burst_color = rng.uniform(-0.25, 0.15)            # [assumption] outbursts are bluer
     burst_off = np.array([burst_color, 0.0, -0.5 * burst_color])[b]
     burst_flux = np.zeros_like(t)                     # start with no outburst light
     if periodic:
+        # [assumption] range chosen to bracket the measured periods of AT 2016blu
+        # (113 +/- 2 d, https://arxiv.org/abs/2212.09708) and SN 2000ch (200.7 +/- 2 d, https://arxiv.org/abs/2212.00113)
         period = rng.uniform(40.0, 400.0)             # orbital period (days)
-        amp0 = rng.uniform(1.0, 3.5)                  # outburst amplitude above quiescence (mag)
+        amp0 = rng.uniform(1.0, 3.5)                  # amplitude (mag); [assumption], wider than AT 2016blu's 1-2 mag (https://arxiv.org/abs/2212.09708)
         t_first = rng.uniform(-period, 0.0)           # time of the first periastron
         for tc in np.arange(t_first, t.max() + period, period):   # one outburst per orbit
             tc = tc + rng.normal(0, 0.05 * period)    # each outburst a bit early or late
             amp = amp0 * rng.uniform(0.5, 1.2)        # each outburst a bit weaker or stronger
-            width = rng.uniform(4.0, 30.0)            # outburst duration scale (days)
+            width = rng.uniform(4.0, 30.0)            # duration scale (d); AT 2016blu outbursts last 1-4 weeks (https://arxiv.org/abs/2212.09708)
             peak_flux = mag_to_njy(m_q - amp) - mag_to_njy(m_q)   # extra flux at peak
             for _ in range(rng.integers(1, 4)):       # irregular, multi-peaked outbursts
                 tsub = tc + rng.uniform(-width, width)   # time of this sub-peak
@@ -93,10 +109,10 @@ def impostor(rng, t, b, mu):
                 burst_flux += peak_flux * rng.uniform(0.4, 1.0) * np.exp(-0.5 * ((t - tsub) / sig) ** 2)
         params = dict(subtype="periodic", period=period, amplitude=amp0)
     else:
-        peak_abs = rng.uniform(-14.0, -11.0)          # peak absolute magnitude of the giant eruption
+        peak_abs = rng.uniform(-14.0, -11.0)          # [assumption] peak abs. mag of the giant eruption
         amp0 = (m_q - mu) - peak_abs                  # amplitude above quiescence (mag)
         t0 = rng.uniform(-60.0, t.max())              # time of peak
-        rise, tau = rng.uniform(10.0, 60.0), rng.uniform(30.0, 300.0)   # rise and fade times (days)
+        rise, tau = rng.uniform(10.0, 60.0), rng.uniform(30.0, 300.0)   # [assumption] rise and fade times (days)
         peak_flux = mag_to_njy(peak_abs + mu) - mag_to_njy(m_q)
         # Gaussian rise before the peak, exponential fade after it
         shape = np.where(t < t0, np.exp(-0.5 * ((t - t0) / rise) ** 2), np.exp(-(t - t0) / tau))
@@ -108,7 +124,11 @@ def impostor(rng, t, b, mu):
 
 
 def supernova(rng, t, b, mu):
-    """Supernova light curve: fast rise, exponential decline, reddening with time."""
+    """Supernova light curve: fast rise, exponential decline, reddening with time.
+
+    [assumption] Peak magnitudes, timescales, and subtype fractions are rough
+    typical values for each type, not fitted to a published sample.
+    """
     u = rng.uniform()                                 # pick a subtype at random
     if u < 0.4:      # 40%: Ia-like, bright and fast
         peak_abs, tau_fall, subtype = rng.normal(-19.2, 0.3), rng.uniform(15.0, 40.0), "Ia-like"
@@ -129,14 +149,15 @@ def supernova(rng, t, b, mu):
 
 
 def agn(rng, t, b, mu):
-    """Background quasar seen through the host: damped random walk in magnitude.
+    """Background quasar seen through the host: damped random walk in magnitude
+    (the model of MacLeod et al. 2010, https://doi.org/10.1088/0004-637X/721/2/1014).
 
     Its apparent magnitude is independent of the host distance, so the absolute
     magnitude computed with the host distance is wrong, as it would be in real data.
     """
-    mean_app = rng.uniform(20.0, 23.5)                # mean apparent magnitude
-    tau = rng.uniform(30.0, 500.0)                    # how long it "remembers" its brightness (days)
-    sf_inf = rng.uniform(0.15, 0.8)                   # asymptotic structure function (mag)
+    mean_app = rng.uniform(20.0, 23.5)                # [assumption] mean apparent magnitude
+    tau = rng.uniform(30.0, 500.0)                    # [assumption] how long it "remembers" its brightness (days)
+    sf_inf = rng.uniform(0.15, 0.8)                   # [assumption] asymptotic structure function (mag)
     sigma = sf_inf / np.sqrt(2.0)                     # typical size of the variations
     tu = np.unique(t)                                 # distinct observation times
     x = np.empty(len(tu))
@@ -144,7 +165,7 @@ def agn(rng, t, b, mu):
     for k in range(1, len(tu)):                       # step forward in time
         a = np.exp(-(tu[k] - tu[k - 1]) / tau)        # how much of the previous offset is kept
         x[k] = a * x[k - 1] + rng.normal(0, sigma * np.sqrt(1 - a * a))   # drift + random kick
-    dm = x[np.searchsorted(tu, t)] * np.array([1.2, 1.0, 0.8])[b]   # bluer bands vary more
+    dm = x[np.searchsorted(tu, t)] * np.array([1.2, 1.0, 0.8])[b]   # bluer bands vary more ([assumption] factors)
     color = rng.uniform(0.0, 0.6)
     off = np.array([color, 0.0, -0.5 * color])[b]
     flux = mag_to_njy(mean_app + off + dm)
@@ -165,13 +186,17 @@ def observe(rng, flux_true, b, host_flux):
 
 def luptitude(flux, sigma):
     """asinh magnitude: well behaved at low and negative flux (Lupton et al. 1999, https://doi.org/10.1086/301004)."""
-    soft = 1.042 * sigma                              # softening: where it switches from log to linear
+    soft = 1.042 * sigma                              # softening (Lupton et al. 1999): where it switches from log to linear
     return -2.5 / np.log(10) * (np.arcsinh(flux / (2 * soft)) + np.log(soft)) + ZP
 
 
 def detected(flux_true, b, n_min=2, snr=5.0):
     """At least n_min epochs differ from the object's median flux by >= snr sigma,
-    as a source must to appear in the difference-imaging (DiaObject) catalog."""
+    as a source must to appear in the difference-imaging (DiaObject) catalog.
+
+    [assumption] 5 sigma matches Rubin's detection threshold for difference-image
+    sources; requiring 2 epochs is a choice made here.
+    """
     sigma = np.array([mag_to_njy(M5[bb]) / 5.0 for bb in BANDS])[b]
     return np.sum(np.abs(flux_true - np.median(flux_true)) / sigma >= snr) >= n_min
 
@@ -180,11 +205,11 @@ def simulate_object(rng, label, max_tries=100):
     """Make one detectable object of the given class (0, 1, or 2)."""
     for _ in range(max_tries):                        # try until the object is detectable
         t, b = cadence(rng)                           # observation times and bands
-        mu = rng.uniform(28.5, 33.0)                  # 5 to 40 Mpc
+        mu = rng.uniform(28.5, 33.0)                  # [assumption] distance modulus 28.5-33 = 5 to 40 Mpc
         flux_true, params = MODELS[label](rng, t, b, mu)   # run the right recipe
         if detected(flux_true, b):
             break
-    host_flux = mag_to_njy(rng.uniform(22.0, 26.0))   # host-galaxy light at the position
+    host_flux = mag_to_njy(rng.uniform(22.0, 26.0))   # [assumption] host-galaxy light at the position (22-26 mag)
     flux, sigma = observe(rng, flux_true, b, host_flux)   # add host light and noise
     template = params.pop("template")
     diff_flux = flux - host_flux - template            # difference-image flux (alert-like)
