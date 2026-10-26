@@ -23,7 +23,7 @@ Each folder has its own README with instructions.
 
 Fine-tuning the pretrained ORACLE classifier ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) on simulated LSST light curves finds more eruptions than the same network trained from scratch, most clearly when labeled examples are scarce. With 25 labeled impostors, it recovers 47% of impostors in a held-out test set, compared with 32% from scratch, and it reaches a given recall with about half as many labeled examples. Before fine-tuning, ORACLE, which has no eruptive-star class, labels most simulated eruptions as AGN or long-duration transients.
 
-![Label efficiency](docs/label_efficiency.png)
+![Label efficiency](ml/figures/label_efficiency.png)
 
 *Impostor F1 score and AUROC versus the number of labeled impostors, for three ORACLE-architecture networks: trained from scratch, pretrained and fine-tuned, and pretrained with the encoder frozen. Mean and spread over three seeds; test set of 1,500 objects per class. Run on one NVIDIA RTX A6000 GPU on UVA's Rivanna cluster (34 minutes). These are simulated data, so the numbers test the method, not survey performance.*
 
