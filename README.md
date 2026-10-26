@@ -8,6 +8,8 @@ Tools to find **eruptive massive stars** (supernova impostors and luminous blue 
 
 These stars brighten by several magnitudes in non-terminal eruptions and survive. Only a few dozen are known. Rubin's wide, deep, multi-band coverage makes a systematic search possible for the first time.
 
+> **Status: early development.** The DP2 candidate search is functional; the machine-learning part is a prototype tested on simulated data only.
+
 ## What is in this repository
 
 | Folder | What it does | Where it runs |
