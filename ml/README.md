@@ -72,6 +72,10 @@ python ml/baseline/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --devic
 
 Read the results as a test of the method, not as survey predictions.
 
+## Next steps
+
+- **Real LSST cadence.** Replace the simplified cadence in `simulate.py` (two 180-day seasons with random gaps) with Rubin's simulated observing schedule (the OpSim baseline used in [PSTN-054](https://pstn-054.lsst.io/PSTN-054.pdf)): take the actual visit times, filters, and depths at random positions in nearby galaxies. This captures season lengths that depend on position on the sky, gaps from weather and the Moon, and the rolling cadence. Once LSST data are available, use the real visit history from the Rubin data releases instead.
+
 ## Credits
 
 ORACLE-1: Shah, V. G., Gagliano, A., Malanchev, K., Narayan, G., & LSST DESC 2025, [doi:10.3847/1538-4357/ae1130](https://doi.org/10.3847/1538-4357/ae1130), [arXiv:2501.01496](https://arxiv.org/abs/2501.01496). The weights are downloaded from [github.com/dev-ved30/Oracle](https://github.com/dev-ved30/Oracle) under its license and are not redistributed here.
