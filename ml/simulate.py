@@ -8,7 +8,8 @@ not a population synthesis.
 Classes
 -------
 0 impostor : LBV-like source with quasi-periodic outbursts (70%) or a single
-             long giant eruption (30%), on top of slow S Dor-like wandering.
+             long giant eruption (30%), on top of S Dor-like variability (0.1-2 mag
+             over years to decades, redder when brighter).
 1 sn       : supernova at the position (Ia-like or II-like rise-and-decline).
 2 agn      : stochastic (damped-random-walk) variability of a faint nucleus.
 
@@ -70,13 +71,26 @@ def cadence(rng, n_seasons=2, season_days=180.0, year=365.25, mean_gap_days=8.0)
     return t[order], b[order]
 
 
-def _slow_wander(rng, t, amp):
-    """Smooth, slow magnitude wandering (S Dor-like), sum of long-period sinusoids."""
-    out = np.zeros_like(t)
-    for _ in range(3):                               # add three slow sine waves
-        period = rng.uniform(300, 3000)              # [assumption] period of 300 to 3000 days
-        out += rng.normal(0, amp / np.sqrt(3)) * np.sin(2 * np.pi * t / period + rng.uniform(0, 2 * np.pi))
-    return out
+def _sdor_variation(rng, t):
+    """S Dor-like variability: slow brightness changes over years to decades.
+
+    Based on van Genderen (2001, https://www.aanda.org/articles/aa/full/2001/05/aads1896/aads1896.orig.html):
+    [measured] S Dor variations reach up to ~2.5 mag; "strong-active" stars vary by
+    more than 0.5 mag and weak-active ones by less. Short S Dor phases last years
+    (< 10 yr) and long phases decades.
+    [assumption] Total range drawn from 0.1 to 2 mag, split at random between a
+    short cycle (1-10 yr) and a long cycle (10-30 yr); both are sinusoids.
+    Returns the magnitude change dm (negative = brighter).
+    """
+    total = rng.uniform(0.1, 2.0)                    # [assumption] total range (mag), weak to strong-active
+    frac_short = rng.uniform()                       # share of the range in the short cycle
+    dm = np.zeros_like(t)
+    for share, (p_min, p_max) in ((frac_short, (365.0, 3650.0)),          # short cycle: 1-10 yr
+                                  (1 - frac_short, (3650.0, 10950.0))):   # long cycle: 10-30 yr
+        period = rng.uniform(p_min, p_max)
+        phase = rng.uniform(0, 2 * np.pi)            # random point in the cycle when observations start
+        dm += 0.5 * total * share * np.sin(2 * np.pi * t / period + phase)   # half-range = amplitude
+    return dm
 
 
 def impostor(rng, t, b, mu):
@@ -85,7 +99,13 @@ def impostor(rng, t, b, mu):
     m_q = rng.uniform(-10.0, -7.0) + mu              # [assumption] quiescent abs. mag -10 to -7, made apparent with mu
     color_q = rng.uniform(-0.1, 0.4)                  # [assumption] quiescent g - r
     band_offset = np.array([color_q, 0.0, -0.5 * color_q])[b]   # brightness offset per band
-    base_flux = mag_to_njy(m_q + band_offset + _slow_wander(rng, t, 0.3))   # star + slow wandering ([assumption] 0.3 mag)
+    dm_sdor = _sdor_variation(rng, t)                 # slow S Dor-like brightness change
+    # [measured] S Dor variables get redder as they brighten and bluer as they fade
+    # (van Genderen 2001, https://www.aanda.org/articles/aa/full/2001/05/aads1896/aads1896.orig.html);
+    # [assumption] g - r changes by 0.1 to 0.3 mag per mag of brightening.
+    reddening = -rng.uniform(0.1, 0.3) * dm_sdor      # dm < 0 (brighter) -> redder (larger g - r)
+    sdor_color = np.select([b == 0, b == 2], [reddening, -0.5 * reddening], 0.0)   # applied per band
+    base_flux = mag_to_njy(m_q + band_offset + dm_sdor + sdor_color)   # star with S Dor variability
 
     # --- the eruptions ---
     periodic = rng.uniform() < 0.7                    # [assumption] 70% periodic outbursts, 30% one giant eruption

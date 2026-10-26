@@ -9,7 +9,7 @@ Two experiments on **simulated** LSST-like light curves. Simulated performance i
 
 g, r, i light curves on an LSST-like cadence (two 180-day seasons, about one visit per band every 8 days, sky-dominated noise) for three classes:
 
-- **impostor:** an LBV-like star with slow S Dor-like wandering, plus either recurring periastron-triggered outbursts (70%) or a single long giant eruption (30%). The outbursts are modeled on SN 2000ch and AT 2016blu: period 40 to 400 d, amplitude 1 to 3.5 mag, irregular multi-peaked shapes.
+- **impostor:** an LBV-like star with S Dor-like variability (0.1 to 2 mag over years to decades, redder when brighter; [van Genderen 2001](https://www.aanda.org/articles/aa/full/2001/05/aads1896/aads1896.orig.html)), plus either recurring periastron-triggered outbursts (70%) or a single long giant eruption (30%). The outbursts are modeled on SN 2000ch and AT 2016blu: period 40 to 400 d, amplitude 1 to 3.5 mag, irregular multi-peaked shapes.
 - **sn:** Ia-like, II-like, and slow IIn-like supernovae (the hardest to separate from giant eruptions).
 - **agn:** background quasars seen through the host, with damped-random-walk variability.
 
