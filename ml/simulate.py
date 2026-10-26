@@ -109,7 +109,9 @@ def impostor(rng, t, b, mu):
 
     # --- the eruptions ---
     periodic = rng.uniform() < 0.7                    # [assumption] 70% periodic outbursts, 30% one giant eruption
-    burst_color = rng.uniform(-0.25, 0.15)            # [assumption] outbursts are bluer
+    # [assumption] no preferred outburst color: g - r offset of -0.15 to +0.15 mag. The spectrum of
+    # AT 2016blu stays fairly consistent between quiescence and eruptions (https://arxiv.org/abs/2412.13117).
+    burst_color = rng.uniform(-0.15, 0.15)
     burst_off = np.array([burst_color, 0.0, -0.5 * burst_color])[b]
     burst_flux = np.zeros_like(t)                     # start with no outburst light
     if periodic:
