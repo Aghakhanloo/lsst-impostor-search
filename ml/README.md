@@ -29,6 +29,10 @@ For each number of labeled impostors N (25, 50, 100, 250, 1000, 4000), with 4000
 | pretrained, fine-tuned | ORACLE-1 | everything (smaller learning rate for the encoder) |
 | pretrained, frozen | ORACLE-1 | only the new head |
 
+![The three training modes](figures/training_modes.png)
+
+*The network has two parts: an encoder that reads the light curve and summarizes its shape in 16 numbers, and a head that makes the decision using that summary plus the host distance. The three modes differ only in how the encoder starts and whether it is allowed to change. The head is always new, because ORACLE's original head was built for its own classes.*
+
 Every configuration is repeated with three seeds and evaluated on one fixed test set of 1500 objects per class. The script also records what the original ORACLE calls the simulated objects before fine-tuning ("zero-shot"). It has no impostor class, so this shows how a general-purpose classifier would label them.
 
 **Run on UVA's HPC (Rivanna/Afton).** Edit the allocation line in `ml/rivanna_job.slurm`, then from the repository folder:
