@@ -22,7 +22,7 @@ Selection criteria (all configurable in `SearchConfig`):
 
 ## Quick start (Rubin Science Platform)
 
-From a terminal on the RSP Notebook aspect:
+Requires a Rubin Science Platform account (Rubin data rights). From a terminal on the RSP Notebook aspect:
 
 ```bash
 git clone https://github.com/Aghakhanloo/lsst-impostor-search.git
@@ -57,10 +57,9 @@ pip install -e ".[test]"
 pytest
 ```
 
-## Caveats
+## Limitations
 
 - Amplitudes use direct-image forced photometry, which includes host light, so they are lower limits.
 - Absolute magnitudes are not corrected for extinction.
-- On first use, check the HECATE column names and that the size column `R1` is in arcmin (`SearchConfig.hecate_r1_unit`).
-- **Data rights:** DP2 data products are available only to Rubin data-rights holders. Do not commit query outputs to a public repository; `outputs/` is git-ignored.
+- Galaxy sizes from HECATE (`R1`) are assumed to be in arcmin; change `SearchConfig.hecate_r1_unit` if needed.
 
