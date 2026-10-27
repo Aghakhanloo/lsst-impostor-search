@@ -15,7 +15,7 @@ These stars brighten by several magnitudes in non-terminal eruptions and survive
 | Folder | What it does | Where it runs |
 |---|---|---|
 | [`rsp_search/`](rsp_search/) | Candidate search of Rubin Data Preview 2 (DP2): selects variable sources, assigns host galaxies and distances from HECATE, and retrieves forced-photometry light curves. Python package `impostorsearch` plus notebooks. | Rubin Science Platform |
-| [`ml/`](ml/) | Machine-learning prototype: fine-tunes the pretrained ORACLE light-curve classifier to recognize simulated eruptions and compares it with training from scratch. | Laptop or GPU cluster (UVA Rivanna) |
+| [`ml/`](ml/) | Machine-learning prototype: fine-tunes the pretrained ORACLE light-curve classifier to recognize simulated eruptions and compares it with training from scratch. The pretrained ORACLE weights are downloaded automatically from the ORACLE repository. | Laptop or GPU cluster (UVA Rivanna) |
 
 Each folder has its own README with instructions.
 
@@ -29,7 +29,7 @@ Fine-tuning the pretrained ORACLE classifier ([Shah et al. 2025](https://doi.org
 
 ## Quick start
 
-**Candidate search (on the Rubin Science Platform):**
+**Candidate search (on the Rubin Science Platform):** requires a Rubin Science Platform account (Rubin data rights).
 
 ```bash
 git clone https://github.com/Aghakhanloo/lsst-impostor-search.git
@@ -45,10 +45,6 @@ git clone https://github.com/Aghakhanloo/lsst-impostor-search.git
 cd lsst-impostor-search
 sbatch ml/rivanna_job.slurm
 ```
-
-## Data rights
-
-DP2 data products are available only to Rubin data-rights holders. Query outputs are git-ignored and should not be committed. The ORACLE weights are downloaded by a script and are not redistributed here.
 
 ## Contact
 
