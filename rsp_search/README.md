@@ -32,7 +32,7 @@ pip install --user -e lsst-impostor-search/rsp_search
 Then open the notebooks:
 
 - `notebooks/00_single_object_lightcurve.ipynb`: the DP2 light curve of one target (cone search, then forced photometry).
-- `notebooks/02_full_pipeline.ipynb`: the whole-footprint search through the `impostorsearch` package, run in RA strips, with forced-photometry light-curve cuts and saved outputs.
+- `notebooks/01_full_pipeline.ipynb`: the whole-footprint search through the `impostorsearch` package, run in RA strips, with forced-photometry light-curve cuts and saved outputs.
 
 ```python
 from impostorsearch import SearchConfig, load_hecate
