@@ -56,7 +56,7 @@ def standardize_hecate(table, cfg):
 
 
 def match_to_hosts(objects, hosts, cfg, max_search_deg=3.0):
-    """Associate each DiaObject with a HECATE host (criterion 3).
+    """Associate each DiaObject with a HECATE host (criterion 2).
 
     offset_mode "r1": host minimising separation / R1, kept if <= cfg.host_max_norm_sep.
     offset_mode "kpc": host minimising projected offset, kept if <= cfg.offset_max_kpc.

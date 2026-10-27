@@ -30,15 +30,13 @@ class SearchConfig:
     nucleus_min_norm_sep: float = 0.05  # ... or closer than this fraction of R1 (AGN guard)
     hecate_r1_unit: u.Unit = u.arcmin   # unit of the HECATE size column (verify on first use)
 
-    # --- stage 3: light-curve cuts (criteria 1, 2, 4) ---
+    # --- stage 3: light-curve cuts (criteria 1 and 3) ---
     snr_min: float = 5.0                # per-epoch S/N for a flux to count
     min_good_epochs: int = 3            # per band, to measure an amplitude
     min_amplitude_mag: float = 1.0      # criterion 1: variation of at least 1 mag
     amp_percentiles: tuple = (5.0, 95.0)  # robust min/max of the flux distribution
-    max_color_gr: float = 0.5           # criterion 2: blue at peak, g - r below this
-    color_max_dt_days: float = 1.0      # g and r epochs paired within this window
-    require_color: bool = False         # if False, objects without a color are kept and flagged
-    abs_mag_bright: float = -17.0       # criterion 4: -17 < M < -7
+    color_max_dt_days: float = 1.0      # g - r at peak is reported (not used as a cut); g and r paired within this window
+    abs_mag_bright: float = -17.0       # criterion 3: -17 < M < -7
     abs_mag_faint: float = -7.0
 
     # --- bookkeeping ---

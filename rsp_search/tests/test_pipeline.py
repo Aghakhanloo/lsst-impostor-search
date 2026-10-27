@@ -52,7 +52,7 @@ def make_phot():
     rows += lightcurve(1, 22.5, 19.0)             # good SN impostor: amp 3.5, M_peak = -11
     rows += lightcurve(2, 22.5, 22.2)             # too small amplitude
     rows += lightcurve(3, 22.5, 19.0)             # at the nucleus: AGN guard
-    rows += lightcurve(5, 22.5, 19.0, gr_peak=1.2)  # too red
+    rows += lightcurve(5, 22.5, 19.0, gr_peak=1.2)  # red at peak: kept (no color cut)
     t = Table(rows=rows, names=("diaObjectId", "band", "psfFlux", "psfFluxErr", "expMidptMJD"))
     t["psfFlux_flag"] = False
     return t
@@ -86,7 +86,7 @@ def test_full_selection():
     assert r[1]["is_candidate"]
     assert not r[2]["pass_amplitude"] and not r[2]["is_candidate"]
     assert not r[3]["is_candidate"]
-    assert not r[5]["pass_color"] and not r[5]["is_candidate"]
+    assert r[5]["is_candidate"] and np.isclose(r[5]["color_gr_peak"], 1.2, atol=0.01)
 
 
 def test_query_text():
@@ -127,7 +127,7 @@ def test_run_search_end_to_end(tmp_path):
     from impostorsearch.pipeline import run_search
     cands, metrics, phot = run_search(_FakeTAP(), make_hosts(), SearchConfig(),
                                       ra_range=(140.0, 160.0), out_dir=tmp_path)
-    assert list(cands["diaObjectId"]) == [1]
+    assert list(cands["diaObjectId"]) == [1, 5]           # 5 is red at peak, kept (no color cut)
     assert (tmp_path / "candidates.ecsv").exists()
 
 
