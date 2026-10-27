@@ -49,7 +49,7 @@ Outputs are written to `outputs/`: `candidates.ecsv`, `no_host.ecsv`, `all_match
 
 ## Tests
 
-The selection logic is tested offline on synthetic light curves, including an end-to-end run with a mocked TAP service:
+Automatic checks of the search code, run on made-up light curves where the right answer is known. They need no Rubin access and take a few seconds:
 
 ```bash
 cd rsp_search
