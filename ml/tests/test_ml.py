@@ -6,32 +6,21 @@ import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "baseline"))
-from simulate import make_dataset, CLASSES, mag_to_njy, luptitude   # noqa: E402
+from simulate import simulate_object, CLASSES, mag_to_njy, luptitude   # noqa: E402
 
 
-def test_dataset_shapes_and_labels():
-    d = make_dataset(20, seed=3)
-    n = 20 * len(CLASSES)
-    assert d["x"].shape == (n, 256, 2) and d["mask"].shape == (n, 256)
-    assert np.bincount(d["y"]).tolist() == [20, 20, 20]
-    assert np.all(d["mask"].sum(1) > 20)
-    assert np.isfinite(d["x"][d["mask"]]).all() and np.isfinite(d["ctx"]).all()
+def test_simulated_objects_are_valid():
+    rng = np.random.default_rng(3)
+    for label in range(len(CLASSES)):
+        o = simulate_object(rng, label)
+        assert o["label"] == label and len(o["t"]) > 20
+        assert o["t"].min() == 0 and np.all(np.diff(o["t"]) >= 0)          # times start at 0, sorted
+        assert np.isfinite(o["diff_flux"]).all() and np.all(o["sigma"] > 0)
 
 
 def test_luptitude_matches_magnitude_for_bright_sources():
     f = mag_to_njy(18.0)
     assert abs(luptitude(np.array([f]), np.array([f / 1000]))[0] - 18.0) < 0.01
-
-
-def test_model_forward():
-    torch = pytest.importorskip("torch")
-    from model import LightCurveTransformer
-    d = make_dataset(4, seed=1)
-    m = LightCurveTransformer()
-    out = m(torch.as_tensor(d["t"]), torch.as_tensor(d["band"]), torch.as_tensor(d["x"]),
-            torch.as_tensor(d["mask"]), torch.as_tensor(d["ctx"]))
-    assert out.shape == (12, 3) and torch.isfinite(out).all()
 
 
 def test_oracle_architecture_and_conversion():

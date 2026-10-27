@@ -240,36 +240,3 @@ def simulate_object(rng, label, max_tries=100):
     # return everything as a dictionary (a set of named values); times start at 0
     return dict(t=t - t.min(), band=b, lup=lup, lup_err=lup_err, mu=mu, label=label,
                 diff_flux=diff_flux, sigma=sigma, total_flux=flux, **params)
-
-
-def make_dataset(n_per_class, seed=0, max_len=256):
-    """Padded arrays ready for the classifier."""
-    rng = np.random.default_rng(seed)                  # random generator; same seed gives same data
-    n = n_per_class * len(CLASSES)                     # total number of objects
-    labels = np.repeat(np.arange(len(CLASSES)), n_per_class)   # equal numbers of each class
-    rng.shuffle(labels)                                # in random order
-    # empty arrays with max_len slots per object (shorter light curves leave slots empty)
-    T = np.zeros((n, max_len), np.float32)             # times
-    B = np.zeros((n, max_len), np.int64)               # bands
-    X = np.zeros((n, max_len, 2), np.float32)          # magnitude and its error
-    M = np.zeros((n, max_len), bool)                   # mask: True where a slot holds a real point
-    ctx = np.zeros((n, 2), np.float32)                 # extra host information per object
-    meta = {k: np.full(n, np.nan) for k in ("mu", "amplitude", "period")}   # true parameters
-    subtype = np.empty(n, dtype=object)
-    for i, lab in enumerate(labels):                   # make each object
-        o = simulate_object(rng, int(lab))
-        L = min(len(o["t"]), max_len)                  # number of points to keep
-        # median r-band magnitude (or all bands if no r data)
-        med = np.median(o["lup"][o["band"] == 1]) if np.any(o["band"] == 1) else np.median(o["lup"])
-        T[i, :L] = o["t"][:L]
-        B[i, :L] = o["band"][:L]
-        X[i, :L, 0] = (o["lup"][:L] - med)              # shape relative to the median
-        X[i, :L, 1] = np.minimum(o["lup_err"][:L], 2.0)   # error, capped at 2 mag
-        M[i, :L] = True
-        ctx[i] = [(med - o["mu"] + 12.0) / 4.0,           # median absolute mag (scaled)
-                  (o["mu"] - 30.75) / 1.3]                # distance modulus (scaled)
-        for k in meta:
-            meta[k][i] = o[k]
-        subtype[i] = o["subtype"]
-    return dict(t=T, band=B, x=X, mask=M, ctx=ctx, y=labels.astype(np.int64),
-                subtype=subtype, **meta)

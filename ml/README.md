@@ -1,9 +1,8 @@
-# Machine-learning prototypes for finding SN impostors
+# Machine-learning prototype for finding SN impostors
 
-Two experiments on **simulated** LSST-like light curves. Simulated performance is an upper limit on real-data performance; the point is a working, reproducible setup that carries over to real LSST data.
+An experiment on **simulated** LSST-like light curves. Simulated performance is an upper limit on real-data performance; the point is a working, reproducible setup that carries over to real LSST data.
 
-1. **Transfer learning (main experiment).** Starts from ORACLE-1, a public classifier pretrained on simulated LSST alerts, and fine-tunes it to recognize SN impostors. It measures how many labeled SN impostors are needed, compared with training from scratch.
-2. **Baseline: a transformer trained from scratch** (`baseline/`). Includes calibration with a deep ensemble.
+The experiment tests transfer learning: it starts from ORACLE-1, a public classifier pretrained on simulated LSST alerts, and fine-tunes it to recognize SN impostors. It measures how many labeled SN impostors are needed, compared with training from scratch.
 
 ## The simulated data (`simulate.py`)
 
@@ -17,7 +16,7 @@ Each object sits in a host galaxy at 5 to 40 Mpc. The classifier also receives t
 
 To see what the simulated light curves look like, run `python ml/plot_examples.py` (saves `ml/example_lightcurves.png`; use `--seed` for other examples).
 
-## 1. Transfer learning from ORACLE (`finetune_experiment.py`)
+## Transfer learning from ORACLE (`finetune_experiment.py`)
 
 ORACLE-1 ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) is a recurrent network trained on about 450,000 simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. Its closest class, ILOT, represents a single generic outburst; it has no class for recurring eruptions of massive stars. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.
 
@@ -58,15 +57,6 @@ Outputs in `--out`:
 | `label_efficiency.png` | SN impostor F1 and AUROC versus number of labeled SN impostors, per mode |
 | `results.csv` | every run: mode, N, seed, recall, precision, F1, AUROC, training time |
 | `summary.json` | mean and spread per mode and N, zero-shot ORACLE calls, hardware |
-
-## 2. Baseline: transformer from scratch, with calibration (`baseline/train.py`)
-
-A transformer reads each observation as a token, with a band embedding and a time encoding (`baseline/model.py`). It is evaluated with a confusion matrix, SN impostor recall versus outburst amplitude and host distance, and calibration of a single model versus a deep ensemble.
-
-```bash
-python ml/baseline/train.py --n-per-class 5000 --epochs 15 --ensemble 1 --out ml/baseline/results_small   # laptop
-python ml/baseline/train.py --n-per-class 50000 --epochs 30 --ensemble 5 --device cuda --out ml/baseline/results         # one GPU
-```
 
 ## Limitations
 
