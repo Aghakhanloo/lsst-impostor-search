@@ -5,6 +5,6 @@ __pycache__/
 *.egg-info/
 .ipynb_checkpoints/
 .pytest_cache/
-ml/results*/*.pt
+ml/results*/
 ml/pretrained/*.pth
 ml/example_lightcurves.png
