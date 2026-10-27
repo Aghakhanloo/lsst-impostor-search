@@ -3,8 +3,8 @@ https://doi.org/10.3847/1538-4357/ae1130) to SN impostor classification.
 
 ORACLE-1 "lite" is a 2-layer GRU trained on ~0.5M simulated LSST alert light
 curves (ELAsTiCC) to classify 19 transient and variable classes. It has no
-impostor or LBV class. Here we reuse its light-curve encoder and fine-tune it to
-separate impostors from supernovae and AGN-like variability.
+SN impostor or LBV class. Here we reuse its light-curve encoder and fine-tune it to
+separate SN impostors from supernovae and AGN-like variability.
 
 The network below reproduces ORACLE-1's GRU layer by layer (same layer names and
 shapes), so the public weights load directly. Weights: models/ELAsTiCC-lite/

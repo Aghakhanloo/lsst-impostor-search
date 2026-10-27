@@ -64,7 +64,7 @@ def match_to_hosts(objects, hosts, cfg, max_search_deg=3.0):
     mean the same thing for galaxies at 5 Mpc and at 100 Mpc.
 
     Returns (matched, no_host). no_host holds objects with no cataloged host nearby,
-    kept for manual inspection: impostors in faint, uncatalogued dwarfs end up there.
+    kept for manual inspection: SN impostors in faint, uncataloged dwarfs end up there.
     """
     if len(objects) == 0 or len(hosts) == 0:
         return objects[:0], objects

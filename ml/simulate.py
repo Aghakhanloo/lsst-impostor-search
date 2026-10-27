@@ -7,7 +7,7 @@ not a population synthesis.
 
 Classes
 -------
-0 impostor : LBV-like source with quasi-periodic outbursts (70%) or a single
+0 SN impostor : LBV-like source with quasi-periodic outbursts (70%) or a single
              long giant eruption (30%), on top of S Dor-like variability (0.1-2 mag
              over years to decades, redder when brighter).
 1 sn       : supernova at the position (Ia-like or II-like rise-and-decline).
@@ -195,7 +195,7 @@ def agn(rng, t, b, mu):
                       template=mag_to_njy(mean_app + off))
 
 
-# The three recipes in label order: 0 = impostor, 1 = supernova, 2 = AGN.
+# The three recipes in label order: 0 = SN impostor, 1 = supernova, 2 = AGN.
 MODELS = (impostor, supernova, agn)
 
 

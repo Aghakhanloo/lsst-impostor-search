@@ -128,7 +128,7 @@ def make_figures(out, prob, y, meta_test, cm, rel_rows_single, rel_rows_ens):
     fig.savefig(out / "confusion_matrix.png", dpi=200)
     plt.close(fig)
 
-    # impostor recall vs outburst amplitude and vs distance
+    # SN impostor recall vs outburst amplitude and vs distance
     imp = (y == 0)
     pred = prob.argmax(1)
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0), sharey=True)
@@ -147,8 +147,8 @@ def make_figures(out, prob, y, meta_test, cm, rel_rows_single, rel_rows_ens):
         ax.set_xlabel(label)
         ax.set_ylim(0, 1.02)
         ax.grid(axis="y", color="#e4e3dc", lw=0.8)
-    axes[0].set_ylabel("impostor recall")
-    fig.suptitle("Recovery of simulated impostor eruptions (test set)", fontsize=9)
+    axes[0].set_ylabel("SN impostor recall")
+    fig.suptitle("Recovery of simulated SN impostor eruptions (test set)", fontsize=9)
     fig.tight_layout()
     fig.savefig(out / "impostor_recall.png", dpi=200)
     plt.close(fig)
@@ -297,13 +297,13 @@ def write_model_card(out, m):
 
 **Test results (simulated data).**
 - Accuracy: {m['accuracy']:.3f}
-- Impostor recall / precision: {r['impostor']:.3f} / {p['impostor']:.3f}
-- Impostor recall by type: {', '.join(f'{k} {v:.3f}' for k, v in m['impostor_recall_by_subtype'].items())}
+- SN impostor recall / precision: {r['impostor']:.3f} / {p['impostor']:.3f}
+- SN impostor recall by type: {', '.join(f'{k} {v:.3f}' for k, v in m['impostor_recall_by_subtype'].items())}
 - Expected calibration error: single model {m['ece_single_model']:.3f}, ensemble {m['ece_ensemble']:.3f}
 
 **Compute.** {m['device']}{' (' + m['gpu'] + ')' if m['gpu'] else ''}; training time {m['train_seconds_total']:.0f} s; throughput {m['train_throughput_samples_per_s']:.0f} light curves/s.
 
-**Limitations.** Performance on simulations is an upper limit on performance on real data. The simulations omit many real effects (other variable classes, extinction, image artifacts, realistic LSST cadence and depth variations), and the impostor model is built on a handful of well-studied objects.
+**Limitations.** Performance on simulations is an upper limit on performance on real data. The simulations omit many real effects (other variable classes, extinction, image artifacts, realistic LSST cadence and depth variations), and the SN impostor model is built on a handful of well-studied objects.
 """
     (out / "MODEL_CARD.md").write_text(text)
 

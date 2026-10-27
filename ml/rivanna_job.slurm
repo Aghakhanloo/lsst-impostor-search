@@ -58,7 +58,7 @@ nvidia-smi
 
 # Run the experiment inside the container on the GPU (--nv lets it use the GPU;
 # -u prints progress to the log right away; "\" continues the command on the next line).
-#   --counts       numbers of labeled impostors to train with
+#   --counts       numbers of labeled SN impostors to train with
 #   --n-other      supernovae and AGN per class in training
 #   --n-test       test objects per class, never seen in training
 #   --seeds        repeats with different random starts, for error bars

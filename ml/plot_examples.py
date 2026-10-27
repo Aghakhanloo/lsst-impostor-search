@@ -4,7 +4,7 @@ Usage (from the repository folder):
     python ml/plot_examples.py                      # saves ml/example_lightcurves.png
     python ml/plot_examples.py --out my_plot.png --seed 3
 
-Classes (see simulate.py): 0 = impostor (periodic or giant eruption),
+Classes (see simulate.py): 0 = SN impostor (periodic or giant eruption),
 1 = supernova (Ia-like, II-like, IIn-like), 2 = AGN.
 The plotted brightness is the total flux, including the host galaxy's light.
 """
@@ -21,8 +21,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from simulate import simulate_object, BANDS   # noqa: E402
 
 # Which examples to show: (class label, subtype, panel title)
-EXAMPLES = [(0, "periodic", "Class 0: impostor, periodic outbursts"),
-            (0, "giant", "Class 0: impostor, single giant eruption"),
+EXAMPLES = [(0, "periodic", "Class 0: SN impostor, periodic outbursts"),
+            (0, "giant", "Class 0: SN impostor, single giant eruption"),
             (1, "IIn-like", "Class 1: supernova (IIn-like)"),
             (1, "Ia-like", "Class 1: supernova (Ia-like)"),
             (2, "agn", "Class 2: AGN")]

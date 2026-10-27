@@ -71,7 +71,7 @@ for i, (name, enc, note) in enumerate(rows):
     box(X_HEAD, y, W_HEAD, h, "random", "trained", "Head", "makes the decision")
     ax.text(X_HEAD + W_HEAD / 2, y - 0.2, "+ host distance (input)", ha="center", fontsize=8.5, color=MUTED)
     arrow(X_HEAD + W_HEAD + 0.06, X_OUT - 0.05, yc)
-    for j, c in enumerate(("impostor", "supernova", "AGN")):
+    for j, c in enumerate(("SN impostor", "supernova", "AGN")):
         ax.text(X_OUT + 0.05, yc + 0.3 - j * 0.3, c, fontsize=9.5, va="center", color=INK)
 
 ly = 0.05

@@ -49,7 +49,7 @@ def lightcurve(oid, quiescent, peak, gr_peak=0.2, n=12):
 
 def make_phot():
     rows = []
-    rows += lightcurve(1, 22.5, 19.0)             # good impostor: amp 3.5, M_peak = -11
+    rows += lightcurve(1, 22.5, 19.0)             # good SN impostor: amp 3.5, M_peak = -11
     rows += lightcurve(2, 22.5, 22.2)             # too small amplitude
     rows += lightcurve(3, 22.5, 19.0)             # at the nucleus: AGN guard
     rows += lightcurve(5, 22.5, 19.0, gr_peak=1.2)  # too red

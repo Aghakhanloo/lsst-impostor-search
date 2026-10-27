@@ -104,7 +104,7 @@ def fetch_forced_photometry(service, dia_object_ids, cfg, verbose=True):
 
 
 def cone_diaobject_query(schema, ra, dec, radius_arcsec=1.0):
-    """DiaObjects within a small radius of a position (e.g. a known LBV or impostor)."""
+    """DiaObjects within a small radius of a position (e.g. a known LBV or SN impostor)."""
     return (
         f"SELECT diaObjectId, ra, dec, nDiaSources FROM {schema}.DiaObject "
         f"WHERE CONTAINS(POINT('ICRS', ra, dec), "
