@@ -1,9 +1,10 @@
 """Transfer learning from ORACLE-1 (Shah et al. 2025,
 https://doi.org/10.3847/1538-4357/ae1130) to SN impostor classification.
 
-ORACLE-1 "lite" is a 2-layer GRU trained on ~0.5M simulated LSST alert light
-curves (ELAsTiCC) to classify 19 transient and variable classes. It has no
-SN impostor or LBV class. Here we reuse its light-curve encoder and fine-tune it to
+ORACLE-1 "lite" is a 2-layer GRU trained on ~450,000 simulated LSST alert
+light curves (ELAsTiCC) to classify 19 transient and variable classes. Its
+closest class, ILOT, represents a single generic outburst; it has no class for
+recurring eruptions of massive stars. Here we reuse its light-curve encoder and fine-tune it to
 separate SN impostors from supernovae and AGN-like variability.
 
 The network below reproduces ORACLE-1's GRU layer by layer (same layer names and

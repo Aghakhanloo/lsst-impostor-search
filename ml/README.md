@@ -19,7 +19,7 @@ To see what the simulated light curves look like, run `python ml/plot_examples.p
 
 ## 1. Transfer learning from ORACLE (`finetune_experiment.py`)
 
-ORACLE-1 ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) is a recurrent network trained on about 0.5 million simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. It has no SN impostor or LBV class. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.
+ORACLE-1 ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) is a recurrent network trained on about 450,000 simulated LSST alert light curves (ELAsTiCC) to classify 19 transient and variable classes. Its closest class, ILOT, represents a single generic outburst; it has no class for recurring eruptions of massive stars. `oracle_transfer.py` rebuilds its light-curve-only network layer by layer, loads the public weights, converts the simulations to its input format (difference-image flux, error, band wavelength, detection flag, time), and adds a new three-class head that also receives the host distance.
 
 For each number of labeled SN impostors N (25, 50, 100, 250, 1000, 4000), with 4000 supernovae and 4000 AGN, the same network is trained three ways:
 
@@ -33,7 +33,7 @@ For each number of labeled SN impostors N (25, 50, 100, 250, 1000, 4000), with 4
 
 *The network has two parts: an encoder that reads the light curve and summarizes its shape in 16 numbers, and a head that makes the decision using that summary plus the host distance. The three modes differ only in how the encoder starts and whether it is allowed to change. The head is always new, because ORACLE's original head was built for its own classes.*
 
-Every configuration is repeated with three seeds and evaluated on one fixed test set of 1500 objects per class. The script also records what the original ORACLE calls the simulated objects before fine-tuning ("zero-shot"). It has no SN impostor class, so this shows how a general-purpose classifier would label them.
+Every configuration is repeated with three seeds and evaluated on one fixed test set of 1500 objects per class. The script also records what the original ORACLE calls the simulated objects before fine-tuning ("zero-shot"), which shows how a general-purpose classifier would label them.
 
 **Run on UVA's HPC (Rivanna/Afton).** Edit the allocation line in `ml/rivanna_job.slurm`, then from the repository folder:
 
@@ -79,7 +79,7 @@ Read the results as a test of the method, not as survey predictions.
 ## Next steps
 
 - **Real LSST cadence.** Replace the simplified cadence in `simulate.py` (two 180-day seasons with random gaps) with Rubin's simulated observing schedule (the OpSim baseline used in [PSTN-054](https://pstn-054.lsst.io/PSTN-054.pdf)): take the actual visit times, filters, and depths at random positions in nearby galaxies. This captures season lengths that depend on position on the sky, gaps from weather and the Moon, and the rolling cadence. Once LSST data are available, use the real visit history from the Rubin data releases instead.
-- **Expert-simulated contaminants from ELAsTiCC.** Replace the simple supernova and AGN models with the public [ELAsTiCC](https://portal.nersc.gov/cfs/lsst/DESC_TD_PUBLIC/ELASTICC/) light curves from LSST DESC (supernovae, AGN, and other look-alikes such as ILOTs, CaRTs, TDEs, and SLSNe), which already use Rubin's simulated cadence. ELAsTiCC has no SN impostor class, so SN impostors still come from `simulate.py`, injected with the visit times and depths of real ELAsTiCC objects so the classifier cannot tell the two simulators apart. Keep the IIn-like model if SNe IIn are not available as a separate class. Because ORACLE was pretrained on ELAsTiCC, the pretrained model starts with an advantage on these contaminants; report this alongside the comparison.
+- **Expert-simulated contaminants from ELAsTiCC.** Replace the simple supernova and AGN models with the public [ELAsTiCC](https://portal.nersc.gov/cfs/lsst/DESC_TD_PUBLIC/ELASTICC/) light curves from LSST DESC (supernovae, AGN, and other look-alikes such as ILOTs, CaRTs, TDEs, and SLSNe), which already use Rubin's simulated cadence. ELAsTiCC's only related class, ILOT, is a single generic outburst, so SN impostors still come from `simulate.py`, injected with the visit times and depths of real ELAsTiCC objects so the classifier cannot tell the two simulators apart. Keep the IIn-like model if SNe IIn are not available as a separate class. Because ORACLE was pretrained on ELAsTiCC, the pretrained model starts with an advantage on these contaminants; report this alongside the comparison.
 
 ## Credits
 
