@@ -21,7 +21,7 @@ Each folder has its own README with instructions.
 
 ## First result: transfer learning needs fewer labeled eruptions
 
-Fine-tuning the pretrained ORACLE classifier ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) on simulated LSST light curves finds more eruptions than the same network trained from scratch, most clearly when labeled examples are scarce. With 25 labeled SN impostors, it recovers 47% of SN impostors in a held-out test set, compared with 32% from scratch, and it reaches a given recall with about half as many labeled examples. Before fine-tuning, ORACLE, which has no class for recurring eruptions, labels most simulated eruptions as AGN or long-duration transients.
+Fine-tuning the pretrained ORACLE classifier ([Shah et al. 2025](https://doi.org/10.3847/1538-4357/ae1130)) on simulated LSST light curves finds more eruptions than the same network trained from scratch, most clearly when labeled examples are scarce: it reaches the same recall with about half as many labeled SN impostors. With 50 labeled SN impostors, it recovers 61% of SN impostors in a held-out test set, compared with 50% from scratch (with 25: 49% versus 41%). Before fine-tuning, ORACLE, which has no class for recurring eruptions, spreads the simulated eruptions across long-duration transients, AGN, and periodic variables.
 
 ![Label efficiency](ml/figures/label_efficiency.png)
 
