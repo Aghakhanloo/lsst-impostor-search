@@ -18,7 +18,7 @@ Selection criteria (all configurable in `SearchConfig`):
 
 1. **Variability:** amplitude of at least 1 mag (5th to 95th percentile of significant forced fluxes in any band).
 2. **Environment:** within 2 host radii of a HECATE galaxy, but not at its nucleus, to avoid AGN.
-3. **Luminosity:** peak absolute magnitude between -17 and -7, using the HECATE distance.
+3. **Luminosity:** peak absolute magnitude between -18 and -8, using the HECATE distance. SN impostors peak at about -10 to -16 ([Smith et al. 2011](https://arxiv.org/abs/1010.3718)); the window is widened by about 2 mag for extinction, host light, and distance errors.
 
 ## Quick start (Rubin Science Platform)
 

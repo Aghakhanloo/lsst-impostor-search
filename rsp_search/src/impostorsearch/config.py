@@ -36,8 +36,10 @@ class SearchConfig:
     min_amplitude_mag: float = 1.0      # criterion 1: variation of at least 1 mag
     amp_percentiles: tuple = (5.0, 95.0)  # robust min/max of the flux distribution
     color_max_dt_days: float = 1.0      # g - r at peak is reported (not used as a cut); g and r paired within this window
-    abs_mag_bright: float = -17.0       # criterion 3: -17 < M < -7
-    abs_mag_faint: float = -7.0
+    # criterion 3: -18 < M < -8. SN impostors / LBV eruptions peak at about -10 to -16
+    # (Smith et al. 2011, https://arxiv.org/abs/1010.3718); widened by ~2 mag for extinction, host light, and distance errors.
+    abs_mag_bright: float = -18.0
+    abs_mag_faint: float = -8.0
 
     # --- bookkeeping ---
     forced_batch_size: int = 500        # diaObjectIds per forced-photometry query
